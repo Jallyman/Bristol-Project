@@ -1,5 +1,4 @@
 
-// imports ended up all over the show without an IDE telling me if it is used or not
 import javafx.application.*;
 import javafx.stage.*;
 import javafx.scene.*;
@@ -9,6 +8,9 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+import javafx.concurrent.*;
+
+// Imports for network connections
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
@@ -26,6 +28,13 @@ public class Program extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+
+        Task<Void> task = new Task<Void>() {
+            @Override protected Void call() throws Exception {
+                connection();
+                return null;
+            }
+        };
 
         // Action events for all the buttons in the program
         // Heard there were ways to combine them and make it more efficient, 
@@ -51,7 +60,7 @@ public class Program extends Application {
         menuScreen.getConnectionButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                connection();
+                new Thread(task).start();
             }
         });
 
@@ -67,7 +76,7 @@ public class Program extends Application {
         try {
             Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
 
-            String macAddress = "F8-2F-A8-F5-B8-5F";
+            String macAddress = "BC-AE-C5-12-6C-39";
 
             NetworkInterface adapter = null;
 
