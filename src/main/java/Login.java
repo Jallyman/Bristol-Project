@@ -41,7 +41,7 @@ public class Login {
 
         // Checks whether a login attempt occurred
         public boolean loginOccurred(){
-            if(userTextField.getText().equals("admin") && passWBox.getText().equals("1234")) {
+            if(userTextField.getText().equals("admin") && passWBox.getText().equals("admin")) {
                 loginText.setFill(Color.GREEN);
                 loginText.setText("Login Success");
                 return true;

@@ -11,9 +11,10 @@ import javafx.scene.paint.*;
 public class Menu {
 
     private GridPane grid = new GridPane();
-    private Button connectionBtn, logoutBtn;
-    private Text menuText;
-    private Text connectionText;
+    private Button connectionBtn, logoutBtn, thermalBtn;
+    private Text menuText, numConnectionsText;
+    private TextField routerTextField;
+    
 
     public Menu(){
         setup();    
@@ -37,32 +38,28 @@ public class Menu {
     public Button getLogoutButton(){
         return logoutBtn;
     }
-
-    // public boolean connectionOccurred(){
-    //     if() {
-    //         connectionText.setFill(Color.GREEN);
-    //         connectionText.setText("Connection Success");
-    //         return true;
-    //     } else {
-    //         connectionText.setFill(Color.RED);
-    //         connectionText.setText("Connection Fail");
-    //         return false;
-    //     }
-    // }
+    
+    public int connectionOccurred(){
+        return Integer.parseInt(routerTextField.getText());
+    }
 
     private void create(){
         connectionBtn = new Button("Connection");
         logoutBtn = new Button("Logout");
+        thermalBtn = new Button("Thermal Analysis");
         menuText = new Text("Main Menu");
-        connectionText = new Text(); 
+        numConnectionsText = new Text("");
+        routerTextField = new TextField();
     }
 
     private void layout(GridPane grid){
 
         grid.add(connectionBtn, 0, 1);
+        grid.add(routerTextField, 1, 1);
+        grid.add(thermalBtn, 0, 2);
         grid.add(logoutBtn, 0, 3);
         grid.add(menuText, 0, 0);
-        grid.add(connectionText, 0, 0);
+        grid.add(numConnectionsText, 0, 4);
     }
 
     private void align(GridPane grid){
@@ -73,6 +70,7 @@ public class Menu {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         grid.setHalignment(connectionBtn, HPos.CENTER);
+        grid.setHalignment(thermalBtn, HPos.CENTER);
         grid.setHalignment(logoutBtn, HPos.CENTER);
         grid.setHalignment(menuText, HPos.CENTER);
 

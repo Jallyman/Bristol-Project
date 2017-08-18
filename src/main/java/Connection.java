@@ -1,40 +1,99 @@
+// Imports for network connections
 import java.net.InetAddress;
 import java.net.Socket;
+import java.net.NetworkInterface;
+import java.util.Enumeration;
+
+import java.util.Collections;
+
 public class Connection {
 
-    public Connection() {
-        int timeout=500;
+    public int numConnections = 0;
+    public int numRouters = 0;
+
+    public int connection(int routers) {
+        int timeout = 1000;
         int port = 1234;
 
-        try {
-            String currentIP = InetAddress.getLocalHost().toString();
-            String subnet = getSubnet(currentIP);
-            System.out.println("subnet: " + subnet);
+        numRouters = routers;
+        numConnections = 0;
 
-            for (int i=1;i<254;i++){
+        try {
+            Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
+
+            // MAC address needs to change depending on device I am on
+            String macAddress = "BC-AE-C5-12-6C-39";
+
+            NetworkInterface adapter = null;
+
+            for (NetworkInterface iface : Collections.list(nets)) {
+                byte[] mac = iface.getHardwareAddress();
+
+                if (mac == null || !iface.isUp()) {
+                    continue;
+                }
+
+                StringBuilder sb = new StringBuilder();
+                for (byte b : mac) {
+                    sb.append(String.format("%02X%s", b, "-"));
+                }
+
+                sb.deleteCharAt(sb.length() - 1);
+                if (sb.toString().equals(macAddress)) {
+                    adapter = iface;
+                    break;
+                }
+            }
+
+            if (adapter == null) {
+                System.out.println("No network adapter found");
+                System.exit(1);
+            } else {
+                System.out.println("Using: " + adapter.getName());
+            }
+
+            Enumeration<InetAddress> myAddress = adapter.getInetAddresses();
+
+            String currentIP = myAddress.nextElement().getHostAddress();
+            System.out.println(currentIP);
+
+            String subnet = getSubnet(currentIP);
+            System.out.println("Subnet: " + subnet);
+
+            for (int i = 100; i < 115; i++) {
 
                 String host = subnet + i;
                 System.out.println("Checking :" + host);
 
-                if (InetAddress.getByName(host).isReachable(timeout)){
+                InetAddress address = InetAddress.getByName(host);
+                if (address.isReachable(timeout)) {
                     System.out.println(host + " is reachable");
-                    try {
-                        Socket connected = new Socket(subnet, port);
-                    }
-                    catch (Exception s) {
-                        System.out.println(s);
-                    }
+
+                    String hostName;
+
+                    hostName = address.getHostName();
+
+                    System.out.println(hostName);
+
+                    numConnections++;
                 }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        catch(Exception e){
-            System.out.println(e);
-        }
+        routerCorrect();
+        return numConnections;
     }
 
+    // Retrieving the subnet - finds lastIndexOf "."
     public static String getSubnet(String currentIP) {
         int firstSeparator = currentIP.lastIndexOf("/");
         int lastSeparator = currentIP.lastIndexOf(".");
-        return currentIP.substring(firstSeparator+1, lastSeparator+1);
+        return currentIP.substring(firstSeparator + 1, lastSeparator + 1);
     }
+
+    public void routerCorrect() {
+        numConnections = numConnections - numRouters;
+    }
+
 }
