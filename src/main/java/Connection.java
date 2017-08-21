@@ -22,7 +22,7 @@ public class Connection {
             Enumeration<NetworkInterface> nets = NetworkInterface.getNetworkInterfaces();
 
             // MAC address needs to change depending on device I am on
-            String macAddress = "BC-AE-C5-12-6C-39";
+            String macAddress = "F8-2F-A8-F5-B8-5F";
 
             NetworkInterface adapter = null;
 
@@ -60,7 +60,7 @@ public class Connection {
             String subnet = getSubnet(currentIP);
             System.out.println("Subnet: " + subnet);
 
-            for (int i = 100; i < 115; i++) {
+            for (int i = 0; i < 254; i++) {
 
                 String host = subnet + i;
                 System.out.println("Checking :" + host);
@@ -94,6 +94,13 @@ public class Connection {
 
     public void routerCorrect() {
         numConnections = numConnections - numRouters;
+    }
+
+    // Write to .txt file - Only no. of devices
+    public void storeData() {
+        
+
+
     }
 
 }
