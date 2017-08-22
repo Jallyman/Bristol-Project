@@ -27,13 +27,7 @@ public class Program extends Application {
     @Override
     public void start(Stage primaryStage) {
 
-        // Runs a new task in a separate thread
-        Task<Void> task = new Task<Void>() {
-            @Override protected Void call() throws Exception {
-                System.out.println(connector.connection(menuScreen.connectionOccurred()));
-                return null;
-            }
-        };
+ 
 
         // Action events for all the buttons in the program
         // Heard there were ways to combine them and make it more efficient, 
@@ -59,7 +53,17 @@ public class Program extends Application {
         menuScreen.getConnectionButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                new Thread(task).start();
+                // Creating inline task rather than separate class
+                Task<Void> task = new Task<Void>() {
+                    @Override protected Void call() throws Exception {
+                        System.out.println(connector.connection(menuScreen.connectionOccurred()));
+                        System.out.println("Test");
+                        return null;
+                    }
+                };
+                // Runs a new task in a separate thread
+                Thread test = new Thread(task);
+                test.start();          
             }
         });
 

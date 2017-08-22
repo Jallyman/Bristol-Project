@@ -6,6 +6,11 @@ import java.util.Enumeration;
 
 import java.util.Collections;
 
+// Writing to .txt files
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.Writer;
+
 public class Connection {
 
     public int numConnections = 0;
@@ -60,7 +65,7 @@ public class Connection {
             String subnet = getSubnet(currentIP);
             System.out.println("Subnet: " + subnet);
 
-            for (int i = 0; i < 254; i++) {
+            for (int i = 100; i < 115; i++) {
 
                 String host = subnet + i;
                 System.out.println("Checking :" + host);
@@ -82,6 +87,7 @@ public class Connection {
             e.printStackTrace();
         }
         routerCorrect();
+        storeData(Integer.toString(numConnections));
         return numConnections;
     }
 
@@ -92,15 +98,21 @@ public class Connection {
         return currentIP.substring(firstSeparator + 1, lastSeparator + 1);
     }
 
+    // Number of routers taken away from number of found devices
     public void routerCorrect() {
         numConnections = numConnections - numRouters;
     }
 
     // Write to .txt file - Only no. of devices
-    public void storeData() {
-        
-
-
+    public void storeData(String line) {
+        try {
+            BufferedWriter output = new BufferedWriter (new FileWriter ("connectedDevices.txt", true));
+            output.write(line);
+            output.newLine();
+            output.close();
+        } catch (Exception error){
+            System.err.format("Problem writing");
+            error.printStackTrace();
+        }
     }
-
 }
