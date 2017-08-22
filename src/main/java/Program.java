@@ -55,14 +55,7 @@ public class Program extends Application {
         menuScreen.getConnectionButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-                // Creating inline task rather than separate class
-                // Task<Void> task = new Task<Void>() {
-                //     @Override protected Void call() throws Exception {
-                //         System.out.println(connector.connection(menuScreen.connectionOccurred()));
-                //         System.out.println("Test");
-                //         return null;
-                //     }
-                // };
+
                 // Runs a new task in a separate thread
                 // Thread test = new Thread(task);
                 myService = new MyService();
@@ -97,5 +90,15 @@ public class Program extends Application {
         }
     }   
 }
+
+
+// Creating inline task rather than separate class
+// Task<Void> task = new Task<Void>() {
+//     @Override protected Void call() throws Exception {
+//         System.out.println(connector.connection(menuScreen.connectionOccurred()));
+//         System.out.println("Test");
+//         return null;
+//     }
+// };
 
 
