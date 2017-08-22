@@ -9,7 +9,7 @@ import java.util.Collections;
 // Writing to .txt files
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.io.Writer;
+
 
 public class Connection {
 
