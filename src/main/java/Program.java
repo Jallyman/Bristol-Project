@@ -24,7 +24,7 @@ public class Program extends Application {
     private Scene loginScene = new Scene(loginScreen.getGrid(), 550, 600);
     private Scene menuScene = new Scene(menuScreen.getGrid(), 550, 600);
 
-    MyService myService;
+    private Thread connection;
 
     @Override
     public void start(Stage primaryStage) {
@@ -55,11 +55,20 @@ public class Program extends Application {
         menuScreen.getConnectionButton().setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent e) {
-
                 // Runs a new task in a separate thread
-                // Thread test = new Thread(task);
-                myService = new MyService();
-                myService.start();
+                if(connection != null){
+                    connection.interrupt();
+                }
+
+                Task<Void> task = new Task<Void>() {
+                    @Override protected Void call() throws Exception {
+                        System.out.println(connector.connection(menuScreen.connectionOccurred()));
+                        return null;
+                    }
+                };
+
+                connection = new Thread(task);
+                connection.start();
                   
             }
         });
@@ -73,32 +82,5 @@ public class Program extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
-    private class MyService extends Service {
-
-        @Override
-        protected Task<Void> createTask() {
-            return new Task<Void>(){
-
-                @Override
-                protected Void call() throws Exception {
-                    System.out.println(connector.connection(menuScreen.connectionOccurred()));
-                    System.out.println("Test");
-                    return null;
-                }
-            };
-        }
-    }   
 }
-
-
-// Creating inline task rather than separate class
-// Task<Void> task = new Task<Void>() {
-//     @Override protected Void call() throws Exception {
-//         System.out.println(connector.connection(menuScreen.connectionOccurred()));
-//         System.out.println("Test");
-//         return null;
-//     }
-// };
-
 

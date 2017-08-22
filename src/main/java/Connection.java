@@ -9,6 +9,8 @@ import java.util.Collections;
 // Writing to .txt files
 import java.io.BufferedWriter;
 import java.io.FileWriter;
+import javafx.concurrent.*;
+
 
 
 public class Connection {
@@ -81,6 +83,10 @@ public class Connection {
                     System.out.println(hostName);
 
                     numConnections++;
+                }
+
+                if(Thread.currentThread().interrupted()) {
+                    return 1;
                 }
             }
         } catch (Exception e) {
