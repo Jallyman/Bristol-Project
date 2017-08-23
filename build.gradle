@@ -22,6 +22,8 @@ repositories {
 dependencies {
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
+    compile files('libs/javabuilder.jar')
+    compile files('libs/myFunction.jar')
 }
 
 // Define the main class for the application

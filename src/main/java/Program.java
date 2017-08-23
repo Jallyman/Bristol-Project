@@ -10,6 +10,9 @@ import javafx.collections.ObservableList;
 
 import javafx.concurrent.*;
 
+import com.mathworks.toolbox.javabuilder.*;
+import myFunction.*;
+
 
 public class Program extends Application {
 
@@ -66,10 +69,28 @@ public class Program extends Application {
                         return null;
                     }
                 };
-
+                
+                // Progress bar ?? 
                 connection = new Thread(task);
                 connection.start();
                   
+            }
+        });
+
+        menuScreen.getThermalButton().setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                Object[] result;
+                String uri = "C:\\Users\\jaspe\\Documents\\University Work\\Bristol\\COMSM3201 - MSc Project Computer Science\\Thermal Imaging\\MATLAB Program\\test2.jpg";
+                MWCharArray param = new MWCharArray(uri);
+                try {
+                    Class1 myFunction = new Class1();
+                    result = myFunction.myFunction(1, uri);
+                    MWNumericArray number = (MWNumericArray)result[0];
+                    System.out.println(number.getInt());
+                } catch (MWException ex) {
+                    ex.printStackTrace();
+                }
             }
         });
 

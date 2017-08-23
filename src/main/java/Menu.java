@@ -35,6 +35,10 @@ public class Menu {
         return connectionBtn;
     }
 
+    public Button getThermalButton(){
+        return thermalBtn;
+    }
+
     public Button getLogoutButton(){
         return logoutBtn;
     }
