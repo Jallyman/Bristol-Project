@@ -33,6 +33,8 @@ public class Program extends Application {
 
     private Thread connection;
 
+    private Stage fileStage = new Stage();
+
     @Override
     public void start(Stage primaryStage) {
 
@@ -85,7 +87,7 @@ public class Program extends Application {
             @Override
             public void handle(ActionEvent e) {
                 Object[] result;
-                String uri = uri.getPath();
+                String uri = openFile();
                 // "C:\\Users\\jaspe\\Documents\\University Work\\Bristol\\COMSM3201 - MSc Project Computer Science\\Thermal Imaging\\MATLAB Program\\test2.jpg";
                 MWCharArray param = new MWCharArray(uri);
                 try {
@@ -105,9 +107,12 @@ public class Program extends Application {
         primaryStage.show();
     }
 
-    public openFile(){
+    // Allows the user to find thermal image
+    public String openFile(){
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Thermal Image Finder");
+        File selectedFile = fileChooser.showOpenDialog(fileStage);
+        return selectedFile.getAbsolutePath();
     }
 
     public static void main(String[] args) {
