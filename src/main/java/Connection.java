@@ -3,8 +3,10 @@ import java.net.InetAddress;
 import java.net.Socket;
 import java.net.NetworkInterface;
 import java.util.Enumeration;
-
+import java.util.Date;
+import java.text.*;
 import java.util.Collections;
+import java.util.ArrayList;
 
 // Writing to .txt files
 import java.io.BufferedWriter;
@@ -17,6 +19,7 @@ public class Connection {
 
     public int numConnections = 0;
     public int numRouters = 0;
+    public ArrayList<String> deviceNames;
 
     public int connection(int routers) {
         int timeout = 1000;
@@ -67,6 +70,8 @@ public class Connection {
             String subnet = getSubnet(currentIP);
             System.out.println("Subnet: " + subnet);
 
+            deviceNames = new ArrayList<String>();
+
             for (int i = 100; i < 115; i++) {
 
                 String host = subnet + i;
@@ -79,7 +84,7 @@ public class Connection {
                     String hostName;
 
                     hostName = address.getHostName();
-
+                    deviceNames.add(hostName);
                     System.out.println(hostName);
 
                     numConnections++;
@@ -110,10 +115,25 @@ public class Connection {
     }
 
     // Write to .txt file - Only no. of devices
-    public void storeData(String line) {
+    public void storeData(String deviceNo) {
         try {
+            Date dNow = new Date();
+            SimpleDateFormat format = new SimpleDateFormat ("E dd.MM.yyyy 'at' hh:mm:ss");
             BufferedWriter output = new BufferedWriter (new FileWriter ("connectedDevices.txt", true));
-            output.write(line);
+            output.write("No. devices: " + deviceNo + " - " + format.format(dNow));
+
+
+            // Print device names found
+            if(deviceNames.size() > 0){
+                output.write(" - Devices: ");
+                for (int i = 0; i < deviceNames.size(); i++){
+                    if(i == 0) {
+                        output.write(deviceNames.get(i));
+                    } else {
+                        output.write(", " + deviceNames.get(i));
+                    }
+                }
+            }
             output.newLine();
             output.close();
         } catch (Exception error){

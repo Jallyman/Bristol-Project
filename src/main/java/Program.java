@@ -7,6 +7,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import java.io.File;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.*;
 
 import javafx.concurrent.*;
 
@@ -81,7 +85,8 @@ public class Program extends Application {
             @Override
             public void handle(ActionEvent e) {
                 Object[] result;
-                String uri = "C:\\Users\\jaspe\\Documents\\University Work\\Bristol\\COMSM3201 - MSc Project Computer Science\\Thermal Imaging\\MATLAB Program\\test2.jpg";
+                String uri = uri.getPath();
+                // "C:\\Users\\jaspe\\Documents\\University Work\\Bristol\\COMSM3201 - MSc Project Computer Science\\Thermal Imaging\\MATLAB Program\\test2.jpg";
                 MWCharArray param = new MWCharArray(uri);
                 try {
                     Class1 myFunction = new Class1();
@@ -98,6 +103,11 @@ public class Program extends Application {
         primaryStage.setTitle("Survey Program");
         primaryStage.setScene(menuScene);
         primaryStage.show();
+    }
+
+    public openFile(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Thermal Image Finder");
     }
 
     public static void main(String[] args) {
