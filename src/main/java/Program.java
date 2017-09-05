@@ -102,7 +102,7 @@ public class Program extends Application {
         });
 
         // Change if login screen is needed
-        primaryStage.setTitle("Survey Program");
+        primaryStage.setTitle("Prototype");
         primaryStage.setScene(menuScene);
         primaryStage.show();
     }

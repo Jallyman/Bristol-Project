@@ -72,7 +72,7 @@ public class Connection {
 
             deviceNames = new ArrayList<String>();
 
-            for (int i = 100; i < 115; i++) {
+            for (int i = 0; i < 254; i++) {
 
                 String host = subnet + i;
                 System.out.println("Checking :" + host);
